@@ -136,6 +136,7 @@
     <Compile Include="Model\Compare.cs" />
     <Compile Include="Core\MainViewModelNew.cs" />
     <Compile Include="Model\DataStat.cs" />
+    <Compile Include="Model\WSMethod.cs" />
     <Compile Include="PagerControl.xaml.cs">
       <DependentUpon>PagerControl.xaml</DependentUpon>
     </Compile>

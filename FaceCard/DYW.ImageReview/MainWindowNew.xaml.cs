@@ -83,7 +83,9 @@ namespace DYW.ImageReview
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            core.doComapre(1, ConfigProfile.Current.VideoInName, "进入");
+            //core.doComapre(1, ConfigProfile.Current.VideoInName, "进入");
+
+            FaceService.Compare(@"C:\Users\Shaojie\Desktop\face\face_ysj.jpg", ConfigProfile.Current.CameraInIp.UrlEncode());
         }
     }
 }

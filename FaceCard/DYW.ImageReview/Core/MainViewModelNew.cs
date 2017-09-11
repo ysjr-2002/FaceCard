@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -111,28 +112,32 @@ namespace DYW.ImageReview.Core
             }
             #endregion
 
-            DataStat.Init();
+            //DataStat.Init();
 
             ShowTimeInfo(DateTime.Now);
             StartTimer();
 
+            WSMethod method = new WSMethod();
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var json = js.Serialize(method);
+
             //将Nuc和摄像机Ip进行映射
-            var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraInIp.UrlEncode();
+            var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraInIp.UrlEncode() + "&method=" + json;
             var taskIn = WebSocket(url_in);
             await taskIn;
             webSocketIn = taskIn.Result;
 
-            var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraOutIp.UrlEncode();
-            var taskOut = WebSocket(url_out);
-            await taskOut;
-            webSocketOut = taskOut.Result;
+            //var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraOutIp.UrlEncode();
+            //var taskOut = WebSocket(url_out);
+            //await taskOut;
+            //webSocketOut = taskOut.Result;
 
-            RunServer();
+            //RunServer();
 
-            if (webSocketIn.IsConnected && webSocketOut.IsConnected)
-                ReadyContent = WaitCard;
-            else
-                ReadyContent = "设备连接失败";
+            //if (webSocketIn.IsConnected && webSocketOut.IsConnected)
+            //    ReadyContent = WaitCard;
+            //else
+            //    ReadyContent = "设备连接失败";
         }
 
         public void StartTimer()
