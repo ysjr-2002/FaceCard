@@ -1,0 +1,132 @@
+﻿<Window x:Class="DYW.ImageReview.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:DYW.ImageReview"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="人像复核验证系统"
+        Background="#33CCFF"
+        Icon="iccard.ico"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="24" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Content="{Binding Title,
+                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                        AncestorType=Window}}"
+                       FontSize="14"
+                       FontWeight="Normal" />
+
+                <Image Grid.Column="2"
+                       Width="24"
+                       Height="24"
+                       HorizontalAlignment="Right"
+                       Cursor="Hand"
+                       PreviewMouseLeftButtonDown="Close_PreviewMouseLeftButtonDown"
+                       Source="close.png"
+                       ToolTip="关闭" />
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45" />
+                    <RowDefinition Height="45" />
+                    <RowDefinition Height="45" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0"
+                            Margin="20,0"
+                            Orientation="Horizontal">
+                    <Label Content="卡号:" />
+                    <Label Content="{Binding Employee.CardNo}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1"
+                            Margin="20,0"
+                            Orientation="Horizontal">
+                    <Label Content="姓名:" />
+                    <Label Content="{Binding Employee.Name}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2"
+                            Margin="20,0"
+                            Orientation="Horizontal">
+                    <Label Content="比对:" />
+                    <Label Content="{Binding Employee.Result}">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Employee.Result}" Value="相同">
+                                        <Setter Property="Foreground" Value="Green" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="24" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Employee.Result}" Value="不同">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="24" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </StackPanel>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                           Width="260"
+                           Height="260"
+                           Source="{Binding Employee.Photo}"
+                           Stretch="Fill" />
+                    <Image Grid.Column="1"
+                           Width="260"
+                           Height="260"
+                           Source="{Binding Employee.Snap}"
+                           Stretch="Fill" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1"
+                  Background="#33CCFF"
+                  Visibility="{Binding ReadyVisibility}">
+
+                <Label HorizontalContentAlignment="Center" Content="{Binding ReadyContent}" />
+
+                <Label HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       Content="按F1键增加人像信息"
+                       FontSize="12"
+                       FontWeight="Normal"
+                       Foreground="Red" />
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="DYW.ImageReview.PagerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DYW.ImageReview"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <StackPanel.Resources>
+            <Style TargetType="Label">
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+        </StackPanel.Resources>
+        <Label Content="总记录数:" />
+        <Label Width="40"
+               Margin="0"
+               HorizontalContentAlignment="Left"
+               Content="{Binding RecordTotal}"
+               Padding="0" />
+        <Label Content="共:" />
+        <Label Margin="0"
+               HorizontalContentAlignment="Left"
+               Content="{Binding PageTotal}"
+               Padding="0" />
+        <Label HorizontalContentAlignment="Left" Content="页" />
+        <Image Width="18"
+               PreviewMouseLeftButtonDown="prePage_Click"
+               Source="images/pre_hover.png"
+               ToolTip="上一页" />
+        <Label Width="40"
+               Margin="5,0"
+               HorizontalContentAlignment="Center"
+               Content="{Binding PageIndex}" />
+        <Image Width="18"
+               PreviewMouseLeftButtonDown="nextPage_Click"
+               Source="images/next_hover.png"
+               ToolTip="下一页" />
+    </StackPanel>
+</UserControl>

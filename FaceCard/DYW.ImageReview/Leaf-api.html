@@ -1,0 +1,381 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>基本概念</title>
+
+</head>
+<body>
+<h1>Leaf</h1>
+
+<p>Leaf 是基于 KoalaCam 的经验实现的线下动、静态识别最简系统。一般来说，该系统 需配合业务逻辑端才可正常运行。</p>
+
+<h2>基本概念</h2>
+
+<ul>
+<li><strong>Track</strong> 是一段视频中，一张人脸从出现到离开，所有的帧的合集.</li>
+<li><strong>Feature</strong> 是根据一张人脸图片抽取的特征，一般是 Base64 格式的字符串。</li>
+<li><strong>底库</strong> 是待识别的人的集合。每个待识别的人由若干特征表示。</li>
+<li><strong>Quality</strong> 是一个 0~1 之间的数字，表示人脸的质量（模糊，正脸等）。一般认为 0.7 以上可接受，0.8 以上优秀。一般来说业务逻辑段无需判断该数值。</li>
+<li><strong>Confidence</strong> 是一个 0~100 之间的数字，表示识别置信度。Leaf 会内置一个阈值，一般无需业务逻辑端判断。</li>
+</ul>
+
+
+<h2>API 文档</h2>
+
+<p>本 API 遵循 RESTful 原则，使用了 GET/POST/DELETE/PATCH 等 HTTP 方法对资源进行操作。HTTP 的 Status Code 表示了操作是否成功，200/201/204 表示成功，400 表示输入有误，500 表示服务器内部错误。</p>
+
+<h3>&nbsp;</h3>
+
+<h3>API 列表</h3>
+
+<h4>POST /extract</h4>
+
+<p>特征抽取 API。使用 <code>multipart/form-data</code> 方式上传图片。如果存在多个人脸，则选取最大的那个。若不存在人脸则返回 400 Bad Request.</p>
+
+<p>输入：</p>
+
+<table>
+<thead>
+<tr>
+<th>参数     </th>
+<th> 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>image   </td>
+<td> File</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>输出：</p>
+
+<pre><code>{
+  "rect": {
+    "left": 0,
+    "top": 0,
+    "width": 100,
+    "height": 100
+  },
+  "quality": 0.8,
+  "feature": "ABCDEFG"
+}
+</code></pre>
+
+<h4>&nbsp;</h4>
+
+<h4>WEBSOCKET /video</h4>
+
+<p>视频识别接口。</p>
+
+<p>输入:</p>
+
+<table>
+<thead>
+<tr>
+<th>参数     </th>
+<th> 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name    </td>
+<td> string</td>
+</tr>
+<tr>
+<td>group   </td>
+<td> string</td>
+</tr>
+<tr>
+<td>url     </td>
+<td> string</td>
+</tr>
+<tr>
+<td>ratio   </td>
+<td> string</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>其中 <code>url</code> 表示视频流的地址，支持 RTSP 协议。<code>group</code> 表示底库同步 URL。<code>name</code> 表示该视频流的名称，它用于 <code>/video_socket</code> 接口的参数。</p>
+
+<p><code>name</code> 和 <code>group</code> 参数可以不指定。当 <code>group</code> 参数未指定时，不在库中进行检索，所有人脸的 <code>status</code> 返回为 <code>recognizing</code>（详见输出描述）。</p>
+
+<p><code>ratio</code> 参数描述输出数据中抓拍图像（即 <code>data.image</code>）的宽高比，应为冒号分隔的两个正整数，如 <code>1:1</code>，<code>3:4</code> 。冒号前的数字表示宽的相对值，冒号后的数字表示高的相对值，例如 <code>1:1</code> 表示正方形，而 <code>3:4</code> 的图像则相对较高。如果不指定 <code>ratio</code> 参数，则对抓拍图像的宽高比不做保证。</p>
+
+<p>输出：</p>
+
+<p>以下是 WebSocket 每次推送消息的若干基本格式。每种格式以 <code>type</code> 区分。</p>
+
+<pre><code>{
+  "type": "track",
+  "data": {
+    "track": 1,
+    "timestamp": 1438847587,
+    "status": "recognized",
+    "quality": 0.7,
+    "face": {
+      "rect": {
+        "left": 0,
+        "top": 0,
+        "width": 100,
+        "height": 100
+      },
+      "image": "Base64 encoded JPEG image"
+    },
+    "person": {
+      "id": "person_1",
+      "tag": "person_1_tag",
+      "confidence": 80.1,
+      "feature_id": 1
+    },
+    "attr": {
+      "age": 23.12312344,
+      "male": 0.92,
+      "female": 0.08
+    }
+  }
+}
+
+{
+  "type": "keepalive"
+}
+</code></pre>
+
+<p>输出规则如下：</p>
+
+<p>对每个 <code>track</code>，其 <code>status</code> 可能是 <code>recognizing</code>、<code>recognized</code>、<code>unrecognized</code>、<code>gone</code> 四者之一。其中 <code>recognizing</code> 表示识别中，会输出若干次。<code>recognized</code> 表示识别成功，<strong>最多输出一次</strong>。<code>unrecognized</code> 表示此 Track 分数太低，判断为陌生人，<strong>最多输出一次</strong>。<code>gone</code> 表示 <code>track</code> 消失，输出一次。</p>
+
+<p>其中 <code>face</code>, <code>person</code> 两个字段除 <code>gone</code> 以外都会输出，但 <code>recognizing</code> 时 <code>person</code> 只能做参考。 只有 <code>recognized</code> 的 <code>person</code> 才可用于判断输出。</p>
+
+<h4>POST /video_verify</h4>
+
+<p>检查视频画面中是否有图像中的人物。</p>
+
+<p>输入:</p>
+
+<table>
+<thead>
+<tr>
+<th>参数        </th>
+<th> 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name        </td>
+<td> string</td>
+</tr>
+<tr>
+<td>threshold   </td>
+<td> float</td>
+</tr>
+<tr>
+<td>timeout     </td>
+<td> int</td>
+</tr>
+<tr>
+<td>image       </td>
+<td> File</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>其中 <code>name</code> 表示视频流的名称，<code>threshold</code> 表示识别阈值，<code>timeout</code> 表示超时时间，单位为毫秒（详见下文），<code>image</code> 表示输入图像。</p>
+
+<p>程序在接到请求后，首先会检查最近 5s 内（该数值由 <code>-gate.reserve</code> 启动参数调节）是否有人脸与输入图像匹配；若没有，接下来算法等待 3s（该数值由 <code>timeout</code> 参数决定），如果在这段时间内对应的人脸仍未出现，则程序返回；若在之前所述的任一步找到了对应的人脸，则提前返回。</p>
+
+<p><code>threshold</code> 和 <code>timeout</code> 可以不提供，此时程序采用默认值，由 <code>-gate.threshold</code> 和 <code>-gate.wait</code> 启动参数控制。</p>
+
+<p>输出：</p>
+
+<p>如果在视频中没有找到任何人脸，输出为</p>
+
+<pre><code>{
+  "recognized": false,
+  "result": null,
+  "score": 0
+}
+</code></pre>
+
+<p><code>result</code> 项为 <code>null</code>。</p>
+
+<p>否则，输出类似于</p>
+
+<pre><code>{
+  "recognized": true,
+  "result": {
+    "track": 11,
+    "quality": 0.7896329842761601,
+    "face": {
+      "rect": {
+        "left": 404,
+        "top": 75,
+        "right": 1402,
+        "bottom": 1073
+      }
+    },
+    "image": "Base64 encoded JPEG image"
+  },
+  "score": 87.93497467041016
+}
+</code></pre>
+
+<p><code>result</code> 项中为找到的人脸的信息和抓拍图，<code>score</code> 为相似度，<code>recognized</code> 为此人是否匹配 <code>image</code> 输入中给出的人脸。</p>
+</body>
+</html>
