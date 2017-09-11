@@ -16,11 +16,11 @@ namespace DYW.ImageReview.Core
         public static FaceCompare Compare(string photo, string videoName)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            //param.Add("name", videoName);
-            //param.Add("timeout", ConfigProfile.Current.Timeout.ToString());
-            param.Add("url", ConfigProfile.Current.CameraInIp.UrlEncode());
+            param.Add("name", videoName);
+            param.Add("timeout", ConfigProfile.Current.Timeout.ToString());
+            //param.Add("url", ConfigProfile.Current.CameraInIp.UrlEncode());
 
-            var url = string.Concat("http://" + ConfigProfile.Current.FaceServerIp + ":8080", "/"+ new_suffix);
+            var url = string.Concat("http://" + ConfigProfile.Current.FaceServerIp + ":8080", "/"+ old_suffix);
             var data = photo.FileToByte();
             var error = string.Empty;
             Stopwatch sw = Stopwatch.StartNew();
