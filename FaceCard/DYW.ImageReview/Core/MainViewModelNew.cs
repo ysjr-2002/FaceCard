@@ -117,13 +117,12 @@ namespace DYW.ImageReview.Core
             StartTimer();
 
             //将Nuc和摄像机Ip进行映射
-            var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?name=" + ConfigProfile.Current.VideoInName + "&url=" + ConfigProfile.Current.CameraInIp.UrlEncode();
-            //var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + "rtsp://192.168.0.10/user=admin&password=&channel=1&stream=0.sdp".UrlEncode();
+            var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraInIp.UrlEncode();
             var taskIn = WebSocket(url_in);
             await taskIn;
             webSocketIn = taskIn.Result;
 
-            var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?name=" + ConfigProfile.Current.VideoOutName + "&url=" + ConfigProfile.Current.CameraOutIp.UrlEncode();
+            var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraOutIp.UrlEncode();
             var taskOut = WebSocket(url_out);
             await taskOut;
             webSocketOut = taskOut.Result;
@@ -177,9 +176,9 @@ namespace DYW.ImageReview.Core
         public void Server_OnMessageInComming(object sender, MessageEventArgs e)
         {
             delayCall.Stop();
-            var videoName = Channel.GetVideoName(e.Ip);
+            var videoUrl = Channel.GetVideoUrl(e.Ip);
             var psssType = Channel.GetPassType(e.Ip);
-            var alarm = doComapre(e.CardNo, videoName, psssType);
+            var alarm = doComapre(e.CardNo, videoUrl, psssType);
             if (!alarm)
             {
                 Channel.Open(e.Ip, e.CardBytes);
@@ -196,7 +195,7 @@ namespace DYW.ImageReview.Core
             });
         }
 
-        public bool doComapre(int cardNo, string videoName, string passType)
+        public bool doComapre(int cardNo, string videoUrl, string passType)
         {
             Employee employee = null;
             using (var db = new DoorDBContext())
@@ -221,7 +220,8 @@ namespace DYW.ImageReview.Core
             ReadyVisibility = Visibility.Collapsed;
             CompareVisibility = Visibility.Visible;
             var alarm = true;
-            FaceCompare data = FaceService.Compare(employee.EmpPhoto, videoName);
+
+            FaceCompare data = FaceService.Compare(employee.EmpPhoto, videoUrl);
             if (data != null)
             {
                 var snapPath = "";

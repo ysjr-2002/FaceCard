@@ -163,7 +163,6 @@
     <Compile Include="Core\ConfigProfile.cs" />
     <Compile Include="Core\Employee.cs" />
     <Compile Include="Core\FaceCompare.cs" />
-    <Compile Include="Core\FaceCore.cs" />
     <Compile Include="Core\FaceService.cs" />
     <Compile Include="Core\FileManager.cs" />
     <Compile Include="Core\HttpMethod.cs" />
