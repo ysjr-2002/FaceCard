@@ -118,7 +118,6 @@ namespace DYW.ImageReview.Core
 
             //将Nuc和摄像机Ip进行映射
             var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?name=" + ConfigProfile.Current.VideoInName + "&url=" + ConfigProfile.Current.CameraInIp.UrlEncode();
-            //var url_in = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + "rtsp://192.168.0.10/user=admin&password=&channel=1&stream=0.sdp".UrlEncode();
             var taskIn = WebSocket(url_in);
             await taskIn;
             webSocketIn = taskIn.Result;

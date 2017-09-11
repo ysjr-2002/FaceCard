@@ -68,23 +68,6 @@ namespace DYW.ImageReview.Server
             }
         }
 
-        /// <summary>
-        /// 获取视频流名称
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <returns></returns>
-        public static string GetVideoUrl(string ip)
-        {
-            if (Channels.First().CardReaderIp == ip)
-            {
-                return ConfigProfile.Current.CameraInIp.UrlEncode();
-            }
-            else
-            {
-                return ConfigProfile.Current.CameraOutIp.UrlEncode();
-            }
-        }
-
         public static string GetPassType(string ip)
         {
             if (Channels[0].CardReaderIp == ip)
