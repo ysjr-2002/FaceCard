@@ -1,4 +1,5 @@
-﻿using DYW.ImageReview.Core;
+﻿using Common;
+using DYW.ImageReview.Core;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -64,6 +65,23 @@ namespace DYW.ImageReview.Server
             else
             {
                 return ConfigProfile.Current.VideoOutName;
+            }
+        }
+
+        /// <summary>
+        /// 获取视频流名称
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static string GetVideoUrl(string ip)
+        {
+            if (Channels.First().CardReaderIp == ip)
+            {
+                return ConfigProfile.Current.CameraInIp.UrlEncode();
+            }
+            else
+            {
+                return ConfigProfile.Current.CameraOutIp.UrlEncode();
             }
         }
 
