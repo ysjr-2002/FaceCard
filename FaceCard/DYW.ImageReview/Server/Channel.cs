@@ -60,11 +60,11 @@ namespace DYW.ImageReview.Server
         {
             if (Channels.First().CardReaderIp == ip)
             {
-                return ConfigProfile.Current.CameraInIp.UrlEncode();
+                return ConfigProfile.Current.CameraInIp;
             }
             else
             {
-                return ConfigProfile.Current.VideoOutName;
+                return ConfigProfile.Current.CameraOutIp;
             }
         }
 

@@ -6,39 +6,40 @@ using System.Threading.Tasks;
 
 namespace DYW.ImageReview.Core
 {
-    class FaceCompare
+    public class Rect
     {
-        public bool recognized { get; set; }
-
-        public result result { get; set; }
-
-        public float score { get; set; }
+        public int left { get; set; }
+        public int top { get; set; }
+        public int right { get; set; }
+        public int bottom { get; set; }
     }
 
-    class result
-    {
-        public long track { get; set; }
-
-        public face face { get; set; }
-
-        public float quality { get; set; }
-    }
-
-    class face
+    public class FaceInfo
     {
         public Rect rect { get; set; }
+        public double quality { get; set; }
+        public double brightness { get; set; }
+        public double std_deviation { get; set; }
+    }
 
+    public class Result
+    {
+        public int track { get; set; }
+        public double quality { get; set; }
+        public Rect rect { get; set; }
         public string image { get; set; }
     }
 
-    public class Rect
+    public class ResultRoot
     {
-        public int top { get; set; }
+        public double confidence { get; set; }
+        public Result result { get; set; }
+        public bool recognized { get; set; }
+    }
 
-        public int right { get; set; }
-
-        public int bottom { get; set; }
-
-        public int left { get; set; }
+    public class FaceCompare
+    {
+        public FaceInfo face_info { get; set; }
+        public ResultRoot result { get; set; }
     }
 }

@@ -112,7 +112,7 @@ namespace DYW.ImageReview.Core
             }
             #endregion
 
-            //DataStat.Init();
+            DataStat.Init();
 
             ShowTimeInfo(DateTime.Now);
             StartTimer();
@@ -127,17 +127,17 @@ namespace DYW.ImageReview.Core
             await taskIn;
             webSocketIn = taskIn.Result;
 
-            //var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraOutIp.UrlEncode();
-            //var taskOut = WebSocket(url_out);
-            //await taskOut;
-            //webSocketOut = taskOut.Result;
+            var url_out = "ws://" + ConfigProfile.Current.FaceServerIp + ":8080/video" + "?url=" + ConfigProfile.Current.CameraOutIp.UrlEncode() + "&method=" + json;
+            var taskOut = WebSocket(url_out);
+            await taskOut;
+            webSocketOut = taskOut.Result;
 
-            //RunServer();
+            RunServer();
 
-            //if (webSocketIn.IsConnected && webSocketOut.IsConnected)
-            //    ReadyContent = WaitCard;
-            //else
-            //    ReadyContent = "设备连接失败";
+            if (webSocketIn.IsConnected && webSocketOut.IsConnected)
+                ReadyContent = WaitCard;
+            else
+                ReadyContent = "设备连接失败";
         }
 
         public void StartTimer()
@@ -230,16 +230,23 @@ namespace DYW.ImageReview.Core
             if (data != null)
             {
                 var snapPath = "";
-                if (data.result != null && data.result.face != null)
+
+                if (data.result != null)
                 {
-                    snapPath = FileManager.SaveFile(cardNo, data.result.face.image);
-                    Current.Snap = snapPath;
+                    Current.Score = Convert.ToInt32(data.result.confidence);
+                }
+                if (data.result != null && data.result.result != null)
+                {
+                    if (!data.result.result.image.IsEmpty())
+                    {
+                        snapPath = FileManager.SaveFile(cardNo, data.result.result.image);
+                        Current.Snap = snapPath;
+                    }
                 }
 
-                if (data.score >= compare_ok || data.recognized)
+                if (data.result != null && data.result.recognized)
                 {
                     alarm = false;
-                    Current.Score = Convert.ToInt32(data.score);
                     Current.Result = "相同";
                     if (passType == "进入")
                         DataStat.AllIn++;
