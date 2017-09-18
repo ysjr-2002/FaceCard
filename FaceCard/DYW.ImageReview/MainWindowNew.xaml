@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:DYW.ImageReview"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="人像比对"
+        Title="卡-人像复核系统"
         Icon="iccard.ico"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
