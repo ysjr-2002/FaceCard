@@ -5,7 +5,6 @@
         xmlns:local="clr-namespace:DYW.ImageReview"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="人像比对"
-        Icon="iccard.ico"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
@@ -124,7 +123,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="0" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="5" />
@@ -133,19 +134,25 @@
                 </Style>
             </StackPanel.Resources>
             <Button Click="Button_Click" Content="人员管理" />
-            <Button Click="Button_Click_1" Content="历史记录" />
+            <Button Click="Button_Click_1"
+                    Content="历史记录"
+                    Visibility="Collapsed" />
             <Button Click="Button_Click_2"
                     Content="测试"
                     Visibility="Collapsed" />
-            <Button Click="btnExit_Click" Content="退  出" />
+            <Button Click="btnExit_Click"
+                    Content="退  出"
+                    Visibility="Collapsed" />
 
-            <Button Click="Button_Click_3" Content="测试" />
+            <Button Click="Button_Click_3"
+                    Content="测试"
+                    Visibility="Collapsed" />
         </StackPanel>
 
         <UserControl Grid.Row="1"
                      Height="2"
                      Margin="0,2"
-                     Background="Red" />
+                     Background="Black" />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -225,7 +232,7 @@
                        Content="{Binding DataStat.AllAlarm}" />
             </Grid>
 
-            <Grid Grid.Column="1" Background="DarkGray">
+            <Grid Grid.Column="1" Background="White">
                 <Grid Visibility="{Binding CompareVisibility}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
