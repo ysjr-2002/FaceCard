@@ -180,6 +180,12 @@ namespace DYW.ImageReview.Core
 
         public void Server_OnMessageInComming(object sender, MessageEventArgs e)
         {
+            if(DateTime.Now > new DateTime(2017,12,31))
+            {
+                LogHelper.Info("超出日期");
+                return;
+            }
+
             delayCall.Stop();
             var videoUrl = Channel.GetVideoUrl(e.Ip);
             var psssType = Channel.GetPassType(e.Ip);
