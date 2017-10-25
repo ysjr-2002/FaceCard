@@ -35,8 +35,8 @@ namespace DYW.ImageReview.Core
         private UdpComServer server = null;
         private DispatcherTimer _dispatchTimer = null;
 
-        private SerialDevice receiveSerial = null;
-        private SerialDevice outputSerial = null;
+        private SerialDeviceID receiveSerial = null;
+        private SerialDeviceID outputSerial = null;
         private OutputController output = null;
 
         public MainViewModelNew()
@@ -97,8 +97,8 @@ namespace DYW.ImageReview.Core
             #region 串口方式
             if (!ConfigProfile.Current.ReceiveCom.IsEmpty())
             {
-                receiveSerial = new SerialDevice();
-                outputSerial = new SerialDevice();
+                receiveSerial = new SerialDeviceID();
+                outputSerial = new SerialDeviceID();
                 var open = receiveSerial.Open(ConfigProfile.Current.ReceiveCom);
                 if (open)
                 {

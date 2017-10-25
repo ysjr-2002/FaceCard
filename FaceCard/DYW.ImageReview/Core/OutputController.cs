@@ -12,9 +12,9 @@ namespace DYW.ImageReview.Core
     /// </summary>
     class OutputController
     {
-        private SerialDevice serial = null;
+        private SerialDeviceID serial = null;
 
-        public OutputController(SerialDevice serial)
+        public OutputController(SerialDeviceID serial)
         {
             this.serial = serial;
         }

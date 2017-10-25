@@ -124,6 +124,7 @@
     <Compile Include="Camera\ucUsbCamera.Designer.cs">
       <DependentUpon>ucUsbCamera.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\SerialDeviceID.cs" />
     <Compile Include="EmployeeNew.xaml.cs">
       <DependentUpon>EmployeeNew.xaml</DependentUpon>
     </Compile>
